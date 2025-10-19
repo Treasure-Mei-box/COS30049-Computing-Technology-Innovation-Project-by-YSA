@@ -1,0 +1,40 @@
+================================================================================
+EXPLORATORY DATA ANALYSIS - KEY FINDINGS SUMMARY
+Singapore Air Quality & Weather (2016-2024)
+================================================================================
+
+DATA OVERVIEW:
+  • Total Records: 18,357
+  • Date Range: 2014-01-01 to 2024-12-31
+  • Regions: Bangkok, Chiang Mai, Khon Kaen, Pattaya, Phuket
+  • Years Covered: 2014 - 2024
+
+WEATHER PATTERNS:
+  • Average Temperature: 27.29°C
+  • Average Humidity: 74.94%
+  • Average Wind Speed: 8.41 km/h
+
+AIR QUALITY PATTERNS:
+  • Average AQI: 132.28
+  • Median AQI: 151.77
+  • Most Common Category: Unhealthy
+  • Good Air Quality Days: 11.9%
+
+CORRELATIONS WITH AQI:
+  • Temperature: -0.0679
+  • Humidity: -0.3111
+  • Wind Speed: -0.1272
+
+REGIONAL INSIGHTS:
+  • Bangkok: AQI 148.65
+  • Chiang Mai: AQI 148.01
+  • Khon Kaen: AQI 139.42
+  • Pattaya: AQI 123.95
+  • Phuket: AQI 95.57
+
+TEMPORAL PATTERNS:
+  • Worst Month: Feb (AQI: 151.91)
+  • Best Month: Jul (AQI: 113.25)
+  • Worst Year: 2021 (AQI: 154.10)
+  • Best Year: 2014 (AQI: 72.27)
+

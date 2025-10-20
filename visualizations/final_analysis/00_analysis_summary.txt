@@ -1,0 +1,4 @@
+Rows: 61581
+Date range: 2014-01-01 to 2024-12-31
+Countries: 3, Regions: 18
+AQI category counts: {'Good': 28200, 'Moderate': 18867, 'Unhealthy': 8938, 'Unhealthy for Sensitive Groups': 4268, 'Very Unhealthy': 753, 'Unknown': 532, 'Hazardous': 23}

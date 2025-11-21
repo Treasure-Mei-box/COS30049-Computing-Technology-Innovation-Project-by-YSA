@@ -466,100 +466,100 @@ const DataVisualization: React.FC = () => {
         </div>
 
         {activeTab === "annual" && (
-  <>
-    {/* Annual Insights Header */}
-    <div className="bg-transparent rounded-2xl shadow-xl px-5 py-3 flex flex-col md:flex-row items-center justify-between w-full gap-4 sm:gap-6 dark:bg-gray-700" style={{ minHeight: '75px' }}>
-      <div className="flex flex-col justify-center">
-        <div className="text-2xl font-semibold mb-2 dark:text-gray-100">Annual Air Quality Insights</div>
-        <div className="text-sm text-blue-600 font-semibold cursor-pointer">{region}, {country}</div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-        <select
-          value={`${region}, ${country}`}
-          onChange={e => {
-            const [selectedRegion, selectedCountry] = e.target.value.split(", ").map(str => str.trim());
-            setCountry(selectedCountry);
-            setRegion(selectedRegion);
-          }}
-          className="rounded-xl bg-gray-100 dark:bg-gray-600 border-none px-4 sm:px-8 py-3 sm:py-4 text-lg font-semibold shadow focus:ring-2 focus:ring-blue-300 min-w-[180px] sm:min-w-[220px]"
-          style={{ minHeight: "48px" }}
-        >
-          {regionCountryPairs.map(pair => (
-            <option key={pair} value={pair}>{pair}</option>
-          ))}
-        </select>
-        <select
-          value={year}
-          onChange={e => setYear(Number(e.target.value))}
-          className="rounded-xl bg-gray-100 dark:bg-gray-600 border-none px-4 sm:px-8 py-3 sm:py-4 text-lg font-semibold shadow focus:ring-2 focus:ring-blue-300 min-w-[100px] sm:min-w-[120px]"
-          style={{ minHeight: "48px" }}
-        >
-          {allYears.map(y => (
-            <option key={y} value={y}>{y}</option>
-          ))}
-        </select>
-      </div>
-    </div>
-
-    <div className="overflow-x-auto mt-10 w-full">
-  <div className="flex min-w-[1000px]">
-    {/* Day labels */}
-    <div className="flex flex-col flex-shrink-0" style={{ width: "20px" }}>
-      <div className="h-[21px] mb-1 ml-2"></div>
-      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((wd) => (
-        <div key={wd}
-          className="h-4 flex items-center justify-end text-[9px] font-semibold text-gray-500 dark:text-gray-400"
-        >
-          {wd}
-        </div>
-      ))}
-    </div>
-    {/* Month columns */}
-    <div className="flex gap-1">
-      {months.map((month, mIdx) => (
-        <div key={month}
-          className="flex flex-col items-center border rounded p-1"
-          style={{ minWidth: "70px" }}
-        >
-          {/* Month label */}
-          <div className="text-[12px] font-semibold text-gray-700 dark:text-gray-200 mb-1 text-center">{month}</div>
-          {/* Week rows */}
-          {monthToWeeks[mIdx].map((week, wIdx) => (
-            <div key={wIdx} className="flex gap-1 items-center">
-              {week.map((day, dIdx) => (
-  <div
-    key={dIdx}
-    className={`h-4 w-4 rounded ${getColor(day?.AQI)} relative group cursor-pointer`}
-  >
-    {day && (
-      <div className="absolute z-50 hidden group-hover:block bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-1 py-0.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] rounded shadow-lg whitespace-nowrap">
-        AQI: {day.AQI ?? "N/A"}
-        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-700" />
-      </div>
-    )}
-  </div>
-))}
+          <>
+            {/* Annual Insights Header */}
+            <div className="bg-transparent rounded-2xl shadow-xl px-5 py-3 flex flex-col md:flex-row items-center justify-between w-full gap-4 sm:gap-6 dark:bg-gray-700" style={{ minHeight: '75px' }}>
+              <div className="flex flex-col justify-center">
+                <div className="text-2xl font-semibold mb-2 dark:text-gray-100">Annual Air Quality Insights</div>
+                <div className="text-sm text-blue-600 font-semibold cursor-pointer">{region}, {country}</div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <select
+                  value={`${region}, ${country}`}
+                  onChange={e => {
+                    const [selectedRegion, selectedCountry] = e.target.value.split(", ").map(str => str.trim());
+                    setCountry(selectedCountry);
+                    setRegion(selectedRegion);
+                  }}
+                  className="rounded-xl bg-gray-100 dark:bg-gray-600 border-none px-4 sm:px-8 py-3 sm:py-4 text-lg font-semibold shadow focus:ring-2 focus:ring-blue-300 min-w-[180px] sm:min-w-[220px]"
+                  style={{ minHeight: "48px" }}
+                >
+                  {regionCountryPairs.map(pair => (
+                    <option key={pair} value={pair}>{pair}</option>
+                  ))}
+                </select>
+                <select
+                  value={year}
+                  onChange={e => setYear(Number(e.target.value))}
+                  className="rounded-xl bg-gray-100 dark:bg-gray-600 border-none px-4 sm:px-8 py-3 sm:py-4 text-lg font-semibold shadow focus:ring-2 focus:ring-blue-300 min-w-[100px] sm:min-w-[120px]"
+                  style={{ minHeight: "48px" }}
+                >
+                  {allYears.map(y => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  </div>
 
-  <div className="flex min-w-[1000px] mt-1">
-    <div style={{ width: "20px" }}></div>
-    <div className="flex gap-1">
-      {months.map((month, mIdx) => (
-        <div key={month}
-          style={{ minWidth: "150px" }}
-          className="h-4 flex items-center justify-center text-[12px] font-semibold text-gray-700 dark:text-gray-200"
-        >
-          {monthlyAvg[mIdx]} AQI
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
+            <div className="overflow-x-auto mt-10 w-full">
+              <div className="flex min-w-[1000px]">
+                {/* Day labels */}
+                <div className="flex flex-col flex-shrink-0" style={{ width: "20px" }}>
+                  <div className="h-[21px] mb-1 ml-2"></div>
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((wd) => (
+                    <div key={wd}
+                      className="h-4 flex items-center justify-end text-[9px] font-semibold text-gray-500 dark:text-gray-400"
+                    >
+                      {wd}
+                    </div>
+                  ))}
+                </div>
+                {/* Month columns */}
+                <div className="flex gap-1">
+                  {months.map((month, mIdx) => (
+                    <div key={month}
+                      className="flex flex-col items-center border rounded p-1"
+                      style={{ minWidth: "70px" }}
+                    >
+                      {/* Month label */}
+                      <div className="text-[12px] font-semibold text-gray-700 dark:text-gray-200 mb-1 text-center">{month}</div>
+                      {/* Week rows */}
+                      {monthToWeeks[mIdx].map((week, wIdx) => (
+                        <div key={wIdx} className="flex gap-1 items-center">
+                          {week.map((day, dIdx) => (
+                            <div
+                              key={dIdx}
+                              className={`h-4 w-4 rounded ${getColor(day?.AQI)} relative group cursor-pointer`}
+                            >
+                              {day && (
+                                <div className="absolute z-50 hidden group-hover:block bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-1 py-0.5 bg-gray-900 dark:bg-gray-700 text-white text-[10px] rounded shadow-lg whitespace-nowrap">
+                                  AQI: {day.AQI ?? "N/A"}
+                                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-700" />
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex min-w-[1000px] mt-1">
+                <div style={{ width: "20px" }}></div>
+                <div className="flex gap-1">
+                  {months.map((month, mIdx) => (
+                    <div key={month}
+                      style={{ minWidth: "150px" }}
+                      className="h-4 flex items-center justify-center text-[12px] font-semibold text-gray-700 dark:text-gray-200"
+                    >
+                      {monthlyAvg[mIdx]} AQI
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
 
 
@@ -782,9 +782,9 @@ const DataVisualization: React.FC = () => {
                 );
               })()}
             </section>
-            </>
-  )}
-  </div>
+          </>
+        )}
+      </div>
 
       {/* Divider */}
       {activeTab === "annual" && (

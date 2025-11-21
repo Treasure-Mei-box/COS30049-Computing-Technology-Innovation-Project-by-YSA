@@ -159,171 +159,171 @@ const D3LineChart: React.FC<{ data: any[] }> = ({ data }) => {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      const tooltip = d3.select(tooltipRef.current);
+    const tooltip = d3.select(tooltipRef.current);
 
-      const x = d3.scaleBand()
-        .domain(data.map(d => d.month))
-        .range([0, width])
-        .padding(0.1);
-  
-      const yLeft = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.RelativeHumidity) || 100])
-        .range([height, 0]);
-  
-      const yRight = d3.scaleLinear()
-        .domain([0, d3.max(data, d => Math.max(d.Temperature || 0, d.WindSpeed || 0)) || 50])
-        .range([height, 0]);
-  
-      g.append("g")
-        .attr("class", "grid")
-        .attr("opacity", 0.1)
-        .call(
-          d3.axisLeft(yLeft)
-            .tickSize(-width)
-            .tickFormat(() => "")
-        );
-  
-      g.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .style("font-size", "12px");
-  
-      g.append("g")
-        .call(d3.axisLeft(yLeft))
-        .selectAll("text")
-        .style("fill", "#3b82f6")
-        .style("font-size", "12px");
-  
-      g.append("g")
-        .attr("transform", `translate(${width},0)`)
-        .call(d3.axisRight(yRight))
-        .selectAll("text")
-        .style("fill", "#ef4444")
-        .style("font-size", "12px");
-  
-      const line = d3.line<any>()
-        .defined(d => d.value != null)
-        .x(d => (x(d.month) || 0) + x.bandwidth() / 2)
-        .curve(d3.curveMonotoneX);
-  
-      const humidityData = data.map(d => ({ month: d.month, value: d.RelativeHumidity }));
-      g.append("path")
-        .datum(humidityData)
-        .attr("fill", "none")
-        .attr("stroke", "#3b82f6")
-        .attr("stroke-width", 2)
-        .attr("d", line.y(d => yLeft(d.value || 0)));
-  
-      const tempData = data.map(d => ({ month: d.month, value: d.Temperature }));
-      g.append("path")
-        .datum(tempData)
-        .attr("fill", "none")
-        .attr("stroke", "#f59e0b")
-        .attr("stroke-width", 2)
-        .attr("d", line.y(d => yRight(d.value || 0)));
-  
-      const windData = data.map(d => ({ month: d.month, value: d.WindSpeed }));
-      g.append("path")
-        .datum(windData)
-        .attr("fill", "none")
-        .attr("stroke", "#22c55e")
-        .attr("stroke-width", 2)
-        .attr("d", line.y(d => yRight(d.value || 0)));
-  
-      // Invisible hover areas for better tooltip experience
-      data.forEach((monthData, i) => {
-        const xPos = (x(monthData.month) || 0) + x.bandwidth() / 2;
-        
-        g.append("rect")
-          .attr("x", xPos - x.bandwidth() / 2)
-          .attr("y", 0)
-          .attr("width", x.bandwidth())
-          .attr("height", height)
-          .attr("fill", "transparent")
-          .attr("cursor", "pointer")
-          .on("mouseover", function (event) {
-            const humidity = monthData.RelativeHumidity;
-            const temp = monthData.Temperature;
-            const wind = monthData.WindSpeed;
-          
-            tooltip.style("opacity", 1);
-          
-            let tooltipHTML = `
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.month))
+      .range([0, width])
+      .padding(0.1);
+
+    const yLeft = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.RelativeHumidity) || 100])
+      .range([height, 0]);
+
+    const yRight = d3.scaleLinear()
+      .domain([0, d3.max(data, d => Math.max(d.Temperature || 0, d.WindSpeed || 0)) || 50])
+      .range([height, 0]);
+
+    g.append("g")
+      .attr("class", "grid")
+      .attr("opacity", 0.1)
+      .call(
+        d3.axisLeft(yLeft)
+          .tickSize(-width)
+          .tickFormat(() => "")
+      );
+
+    g.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("font-size", "12px");
+
+    g.append("g")
+      .call(d3.axisLeft(yLeft))
+      .selectAll("text")
+      .style("fill", "#3b82f6")
+      .style("font-size", "12px");
+
+    g.append("g")
+      .attr("transform", `translate(${width},0)`)
+      .call(d3.axisRight(yRight))
+      .selectAll("text")
+      .style("fill", "#ef4444")
+      .style("font-size", "12px");
+
+    const line = d3.line<any>()
+      .defined(d => d.value != null)
+      .x(d => (x(d.month) || 0) + x.bandwidth() / 2)
+      .curve(d3.curveMonotoneX);
+
+    const humidityData = data.map(d => ({ month: d.month, value: d.RelativeHumidity }));
+    g.append("path")
+      .datum(humidityData)
+      .attr("fill", "none")
+      .attr("stroke", "#3b82f6")
+      .attr("stroke-width", 2)
+      .attr("d", line.y(d => yLeft(d.value || 0)));
+
+    const tempData = data.map(d => ({ month: d.month, value: d.Temperature }));
+    g.append("path")
+      .datum(tempData)
+      .attr("fill", "none")
+      .attr("stroke", "#f59e0b")
+      .attr("stroke-width", 2)
+      .attr("d", line.y(d => yRight(d.value || 0)));
+
+    const windData = data.map(d => ({ month: d.month, value: d.WindSpeed }));
+    g.append("path")
+      .datum(windData)
+      .attr("fill", "none")
+      .attr("stroke", "#22c55e")
+      .attr("stroke-width", 2)
+      .attr("d", line.y(d => yRight(d.value || 0)));
+
+    // Invisible hover areas for better tooltip experience
+    data.forEach((monthData, i) => {
+      const xPos = (x(monthData.month) || 0) + x.bandwidth() / 2;
+
+      g.append("rect")
+        .attr("x", xPos - x.bandwidth() / 2)
+        .attr("y", 0)
+        .attr("width", x.bandwidth())
+        .attr("height", height)
+        .attr("fill", "transparent")
+        .attr("cursor", "pointer")
+        .on("mouseover", function (event) {
+          const humidity = monthData.RelativeHumidity;
+          const temp = monthData.Temperature;
+          const wind = monthData.WindSpeed;
+
+          tooltip.style("opacity", 1);
+
+          let tooltipHTML = `
               <div style="font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid rgba(000,000,000,0.3); padding-bottom: 6px;">
                 ${monthData.month}
               </div>
             `;
-          
-            if (humidity != null) {
-              tooltipHTML += `<div style="color: #3b82f6; margin-bottom: 4px;">Humidity (%): ${humidity.toFixed(2)}</div>`;
-            }
-            if (temp != null) {
-              tooltipHTML += `<div style="color: #f59e0b; margin-bottom: 4px;">Temperature (°C): ${temp.toFixed(2)}</div>`;
-            }
-            if (wind != null) {
-              tooltipHTML += `<div style="color: #22c55e;">Wind Speed (m/s): ${wind.toFixed(2)}</div>`;
-            }
-          
-            tooltip
-              .style("left", event.clientX + 5 + "px")
-              .style("top", event.clientY - 0 + "px")
-              .html(tooltipHTML);
-          })
-          
-          .on("mouseout", function() {
-            tooltip.style("opacity", 0);
-          });
-      });
-  
-      // Data point circles (visual only, no hover)
-      [
-        { data: humidityData, color: "#3b82f6", scale: yLeft, className: "dot-humidity" },
-        { data: tempData, color: "#f59e0b", scale: yRight, className: "dot-temp" },
-        { data: windData, color: "#22c55e", scale: yRight, className: "dot-wind" }
-      ].forEach(({ data, color, scale, className }) => {
-        g.selectAll(`.${className}`)
-          .data(data.filter(d => d.value != null))
-          .enter()
-          .append("circle")
-          .attr("class", className)
-          .attr("cx", d => (x(d.month) || 0) + x.bandwidth() / 2)
-          .attr("cy", d => scale(d.value || 0))
-          .attr("r", 4)
-          .attr("fill", color)
-          .style("pointer-events", "none");
-      });
-  
-      // Legend - moved to bottom
-      const legend = svg.append("g")
-      .attr("transform", `translate(${margin.left + 77}, ${height + margin.top + 45})`);    
 
-  const legendData = [
-    { label: "Humidity (%)", color: "#3b82f6" },
-    { label: "Temperature (°C)", color: "#f59e0b" },
-    { label: "Wind Speed (m/s)", color: "#22c55e" }
-  ];
+          if (humidity != null) {
+            tooltipHTML += `<div style="color: #3b82f6; margin-bottom: 4px;">Humidity (%): ${humidity.toFixed(2)}</div>`;
+          }
+          if (temp != null) {
+            tooltipHTML += `<div style="color: #f59e0b; margin-bottom: 4px;">Temperature (°C): ${temp.toFixed(2)}</div>`;
+          }
+          if (wind != null) {
+            tooltipHTML += `<div style="color: #22c55e;">Wind Speed (m/s): ${wind.toFixed(2)}</div>`;
+          }
 
-  legendData.forEach((item, i) => {
-    const legendRow = legend.append("g")
-      .attr("transform", `translate(${i * 180}, 0)`);
+          tooltip
+            .style("left", event.clientX + 5 + "px")
+            .style("top", event.clientY - 0 + "px")
+            .html(tooltipHTML);
+        })
 
-    legendRow.append("line")
-      .attr("x1", 0)
-      .attr("x2", 20)
-      .attr("y1", 0)
-      .attr("y2", 0)
-      .attr("stroke", item.color)
-      .attr("stroke-width", 2);
+        .on("mouseout", function () {
+          tooltip.style("opacity", 0);
+        });
+    });
 
-    legendRow.append("text")
-      .attr("x", 25)
-      .attr("y", 4)
-      .text(item.label)
-      .style("font-size", "12px")
-      .style("fill", "#374151");
-      });
-    }, [data]);
+    // Data point circles (visual only, no hover)
+    [
+      { data: humidityData, color: "#3b82f6", scale: yLeft, className: "dot-humidity" },
+      { data: tempData, color: "#f59e0b", scale: yRight, className: "dot-temp" },
+      { data: windData, color: "#22c55e", scale: yRight, className: "dot-wind" }
+    ].forEach(({ data, color, scale, className }) => {
+      g.selectAll(`.${className}`)
+        .data(data.filter(d => d.value != null))
+        .enter()
+        .append("circle")
+        .attr("class", className)
+        .attr("cx", d => (x(d.month) || 0) + x.bandwidth() / 2)
+        .attr("cy", d => scale(d.value || 0))
+        .attr("r", 4)
+        .attr("fill", color)
+        .style("pointer-events", "none");
+    });
+
+    // Legend - moved to bottom
+    const legend = svg.append("g")
+      .attr("transform", `translate(${margin.left + 77}, ${height + margin.top + 45})`);
+
+    const legendData = [
+      { label: "Humidity (%)", color: "#3b82f6" },
+      { label: "Temperature (°C)", color: "#f59e0b" },
+      { label: "Wind Speed (m/s)", color: "#22c55e" }
+    ];
+
+    legendData.forEach((item, i) => {
+      const legendRow = legend.append("g")
+        .attr("transform", `translate(${i * 180}, 0)`);
+
+      legendRow.append("line")
+        .attr("x1", 0)
+        .attr("x2", 20)
+        .attr("y1", 0)
+        .attr("y2", 0)
+        .attr("stroke", item.color)
+        .attr("stroke-width", 2);
+
+      legendRow.append("text")
+        .attr("x", 25)
+        .attr("y", 4)
+        .text(item.label)
+        .style("font-size", "12px")
+        .style("fill", "#374151");
+    });
+  }, [data]);
 
   return (
     <div className="relative">
@@ -602,35 +602,78 @@ const DataVisualization: React.FC = () => {
           <>
             <h2 className="text-lg font-medium mt-5 mb-3 text-gray-900 dark:text-gray-100">AQI Levels in {year}</h2>
             <div className="overflow-x-auto w-full mb-5 bg-transparent">
-              <div className="flex flex-row min-w-[1000px]">
-                <div className="flex flex-col mr-1 flex-shrink-0">
-                  <div className="h-[20px] mb-1"></div>
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((wd) => (
-                    <div key={wd} className="h-[16px] flex items-center font-bold justify-end text-[9px] text-gray-500 dark:text-gray-400" style={{ width: '20px' }}>
-                      {wd}
-                    </div>
-                  ))}
-                  <div className="h-[16px] mt-1"></div>
-                </div>
-                <div className="bg-transparent grid grid-cols-12 gap-1 flex-1">
-                  {months.map((month, mIdx) => (
-                    <div key={month} className="flex flex-col bg-transparent items-center border-l border-gray-200 dark:border-gray-700 min-w-[70px]">
-                      <div className="text-[12px] font-semibold mb-1 h-[20px] flex items-center justify-center text-gray-700 dark:text-gray-200">{month}</div>
-                      {monthToWeeks[mIdx].map((week, wIdx) => (
-                        <div key={wIdx} className="flex">
-                          {week.map((day, dIdx) => (
-                            <div
-                              key={dIdx}
-                              className={`h-[12px] w-[12px] rounded m-[2px] ${getColor(day?.AQI)}`}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                      <div className="text-[10px] mt-1 font-medium text-gray-600 dark:text-gray-400 h-[16px] flex items-center justify-center">
-                        {monthlyAvg[mIdx]} AQI
+              <div className="flex flex-col min-w-[1000px]">
+                {/* Main calendar section */}
+                <div className="flex flex-row">
+                  {/* Day labels column */}
+                  <div className="flex flex-col mr-1 flex-shrink-0">
+                    <div className="h-[20px] mb-1"></div>
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((wd) => (
+                      <div
+                        key={wd}
+                        className="h-[16px] flex items-center font-bold justify-end text-[9px] text-gray-500 dark:text-gray-400"
+                        style={{ width: '22px' }}
+                      >
+                        {wd}
                       </div>
+                    ))}
+                  </div>
+
+                  {/* Calendar grid with months */}
+                  <div className="bg-transparent grid grid-cols-12 gap-x-0.5 flex-1">
+                    {months.map((month, mIdx) => (
+                      <div
+                        key={month}
+                        className="flex flex-col bg-transparent items-center border-l border-gray-200 dark:border-gray-700 min-w-[70px]"
+                      >
+                        {/* Month label */}
+                        <div className="text-[12px] font-semibold mb-1 h-[23px] flex items-center justify-center text-gray-700 dark:text-gray-200">
+                          {month}
+                        </div>
+
+                        {/* Week rows */}
+                        {monthToWeeks[mIdx].map((week, wIdx) => (
+                          <div key={wIdx} className="flex">
+                            {week.map((day, dIdx) => (
+                              <div
+                                key={dIdx}
+                                className={`h-[13px] w-[12px] rounded m-[1.2px] ${getColor(day?.AQI)} cursor-pointer hover:ring-1 hover:ring-gray-400 transition-all relative group`}
+                              >
+                                {day && (
+                                  <div className="absolute hidden group-hover:block bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-[10px] rounded shadow-lg whitespace-nowrap z-50">
+                                    {/* Tooltip arrow */}
+                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-row mt-1">
+                  {/* Avg label */}
+                  <div className="flex flex-col mr-1 flex-shrink-0">
+                    <div className="h-[16px] flex items-center font-bold justify-end text-[9px] text-gray-500 dark:text-gray-400" style={{ width: '22px' }}>
+                      Avg.
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="bg-transparent grid grid-cols-12 gap-x-0.5 flex-1">
+                    {months.map((month, mIdx) => (
+                      <div
+                        key={month}
+                        className="flex items-center justify-center border-l border-gray-200 dark:border-gray-700 min-w-[70px] h-[16px]"
+                      >
+                        <div className="text-[10px] font-medium text-gray-600 dark:text-gray-400">
+                          {monthlyAvg[mIdx]} AQI
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
